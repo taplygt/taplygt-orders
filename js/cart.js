@@ -1,1 +1,76 @@
-let cart={};const money=n=>'Q'+n.toFixed(2);function show(tab){document.getElementById('client').classList.toggle('hide',tab!=='client');document.getElementById('admin').classList.toggle('hide',tab!=='admin');document.getElementById('clientTab').classList.toggle('active',tab==='client');document.getElementById('adminTab').classList.toggle('active',tab==='admin');if(tab==='admin')renderOrders()}function add(id){cart[id]=(cart[id]||0)+1;renderCart()}function remove(id){if(cart[id])cart[id]--;if(!cart[id])delete cart[id];renderCart()}function renderCart(){let ids=Object.keys(cart),total=ids.reduce((s,id)=>s+items.find(x=>x.id==id).price*cart[id],0);document.getElementById('cartLines').innerHTML=ids.length?ids.map(id=>{let p=items.find(x=>x.id==id);return `<div class="row" style="margin:8px 0"><span>${p.name} × ${cart[id]}</span><span>${money(p.price*cart[id])} <button aria-label="Quitar ${p.name}" onclick="remove(${id})">−</button></span></div>`}).join(''):'Aún no agregas productos.';document.getElementById('total').textContent=money(total)}
+
+let cart = {};
+let productosMenu = [];
+
+const money = n => "Q" + Number(n).toFixed(2);
+
+function show(tab) {
+  document.getElementById("client").classList.toggle("hide", tab !== "client");
+  document.getElementById("admin").classList.toggle("hide", tab !== "admin");
+  document.getElementById("clientTab").classList.toggle("active", tab === "client");
+  document.getElementById("adminTab").classList.toggle("active", tab === "admin");
+
+  if (tab === "admin") renderOrders();
+}
+
+function add(id) {
+  const producto = productosMenu.find(p => String(p.id) === String(id));
+
+  if (!producto) {
+    alert("Producto no encontrado.");
+    return;
+  }
+
+  cart[id] = (cart[id] || 0) + 1;
+  renderCart();
+}
+
+function remove(id) {
+  if (cart[id]) cart[id]--;
+
+  if (!cart[id]) delete cart[id];
+
+  renderCart();
+}
+
+function renderCart() {
+  const contenedor = document.getElementById("cartLines");
+  const totalElemento = document.getElementById("total");
+
+  contenedor.innerHTML = "";
+  let total = 0;
+
+  Object.keys(cart).forEach(id => {
+    const producto = productosMenu.find(p => String(p.id) === String(id));
+    if (!producto) return;
+
+    const cantidad = cart[id];
+    const subtotal = Number(producto.price) * cantidad;
+    total += subtotal;
+
+    const fila = document.createElement("div");
+    fila.className = "row";
+    fila.style.margin = "8px 0";
+
+    const nombre = document.createElement("span");
+    nombre.textContent = `${producto.name} × ${cantidad}`;
+
+    const precio = document.createElement("span");
+    precio.textContent = money(subtotal) + " ";
+
+    const boton = document.createElement("button");
+    boton.textContent = "−";
+    boton.setAttribute("aria-label", `Quitar ${producto.name}`);
+    boton.addEventListener("click", () => remove(id));
+
+    precio.appendChild(boton);
+    fila.append(nombre, precio);
+    contenedor.appendChild(fila);
+  });
+
+  if (contenedor.children.length === 0) {
+    contenedor.textContent = "Aún no agregas productos.";
+  }
+
+  totalElemento.textContent = money(total);
+}
