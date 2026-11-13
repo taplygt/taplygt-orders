@@ -32,7 +32,21 @@ async function cargarMenu() {
       precio.textContent =
         `Q${Number(producto.price).toFixed(2)}`;
 
-      tarjeta.append(titulo, descripcion, precio);
+      const boton = document.createElement("button");
+      boton.className = "primary";
+      boton.textContent = "+ Agregar";
+      boton.style.marginTop = "15px";
+
+      boton.addEventListener("click", () => {
+        if (typeof add === "function") {
+          add(producto.id);
+        } else {
+          console.error("La función add no está disponible");
+          alert("Debemos conectar el carrito de compras.");
+        }
+      });
+
+      tarjeta.append(titulo, descripcion, precio, boton);
       contenedor.appendChild(tarjeta);
     });
 
