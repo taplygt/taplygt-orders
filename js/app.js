@@ -8,6 +8,7 @@ async function cargarMenu() {
 
   try {
     const productos = await obtenerProductos();
+    productosMenu = productos;
 
     contenedor.innerHTML = "";
 
