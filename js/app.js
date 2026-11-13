@@ -1,0 +1,1 @@
+document.getElementById('menu').innerHTML=items.map(p=>`<div class="card"><div style="font-size:38px">${p.emoji}</div><h3>${p.name}</h3><p class="muted">${p.desc}</p><div class="row"><span class="price">${money(p.price)}</span><button class="primary" onclick="add(${p.id})">+ Agregar</button></div></div>`).join('');renderCart();
