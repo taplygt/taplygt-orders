@@ -155,3 +155,21 @@ button:not(:disabled):active{transform:scale(.975)}
 .owner-search input{width:100%;display:block;margin-top:7px;min-height:44px;background:#fff;border-radius:12px}
 .owner-empty{grid-column:1/-1;text-align:center;padding:35px;color:#6e8074;border-style:dashed}
 @media(max-width:660px){.dashboard-shortcuts{margin-bottom:15px}.dashboard-shortcuts a{padding:12px 14px;min-width:136px}.owner-list-head{align-items:stretch;flex-direction:column}.owner-search{width:100%}}
+
+/* New-restaurant launch checklist */
+.getting-started{padding:25px 27px;margin:0 0 22px;background:linear-gradient(125deg,#fff,#f0f5ec);border:1px solid #cfe1ce}
+.getting-started-head{display:flex;align-items:flex-start;gap:15px}
+.getting-started-icon{width:46px;height:46px;flex:0 0 auto;display:grid;place-items:center;border-radius:15px;color:#f5e4b8;background:#174f39;font-size:24px}
+.getting-started h3{font-size:24px;letter-spacing:-.7px;margin:4px 0 7px}
+.getting-started p{font-size:13px;color:#667b6c;margin:0}
+.getting-started-steps{margin-top:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.getting-started-steps a{display:flex;gap:12px;align-items:center;padding:15px 12px;text-decoration:none;color:#204733;background:#fff;border:1px solid #dfe9df;border-radius:15px;min-width:0}
+.getting-started-steps a:hover{background:#f3f8f0;border-color:#adcdb5}
+.getting-started-steps a>span:nth-child(2){flex:1;min-width:0}
+.getting-started-steps a strong,.getting-started-steps a small{display:block}
+.getting-started-steps a strong{font-size:12px;line-height:1.4}
+.getting-started-steps a small{font-size:11px;font-weight:400;color:#829185;margin-top:5px}
+.getting-started-steps a b{color:#79a38c}
+.step-number{font-size:12px;font-weight:900;color:#488568}
+@media(max-width:880px){.getting-started-steps{grid-template-columns:1fr}}
+@media(max-width:660px){.getting-started{padding:19px}.getting-started h3{font-size:20px}}
