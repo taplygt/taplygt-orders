@@ -13,6 +13,7 @@ function showLogin(message = '') {
   pollHandle = null;
   accessToken = null;
   staffRestaurantId = null;
+  document.getElementById('tableLinks').replaceChildren();
   document.getElementById('loginBox').classList.remove('hide');
   document.getElementById('dashboard').classList.add('hide');
   setMessage('loginMessage', message);
@@ -143,3 +144,40 @@ document.getElementById('loginForm').addEventListener('submit', async event => {
 document.getElementById('refresh').addEventListener('click', loadOrders);
 document.getElementById('logout').addEventListener('click', () => showLogin('Sesión cerrada.'));
 window.addEventListener('pagehide', () => clearInterval(pollHandle));
+
+async function showTableLinks() {
+  if (!accessToken || !staffRestaurantId) return;
+  const target = document.getElementById('tableLinks');
+  target.textContent = 'Cargando enlaces...';
+  try {
+    const tables = await supabaseRequest('/rest/v1/tables?select=table_number,qr_token&is_active=eq.true&restaurant_id=eq.' +
+      encodeURIComponent(staffRestaurantId) + '&order=table_number.asc', { token:accessToken });
+    target.replaceChildren();
+    // El enlace al menú se deriva del sitio donde está alojado el panel.
+    const menuUrl = new URL('../index.html', window.location.href);
+    tables.forEach(table => {
+      const line = document.createElement('p');
+      const label = document.createElement('strong');
+      label.textContent = 'Mesa ' + table.table_number + ': ';
+      const link = document.createElement('a');
+      const url = new URL(menuUrl.toString());
+      url.searchParams.set('mesa_token', table.qr_token);
+      link.href = url.toString();
+      link.textContent = 'Abrir menú de esta mesa';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      const copy = document.createElement('button');
+      copy.type = 'button';
+      copy.textContent = 'Copiar enlace';
+      copy.style.marginLeft = '8px';
+      copy.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(url.toString()); copy.textContent = 'Copiado'; }
+        catch { window.prompt('Copia el enlace de la mesa', url.toString()); }
+      });
+      line.append(label, link, copy);
+      target.appendChild(line);
+    });
+    if (!tables.length) target.textContent = 'No hay mesas activas.';
+  } catch (err) { target.textContent = 'No se pudieron cargar las mesas: ' + err.message; }
+}
+document.getElementById('loadTableLinks').addEventListener('click', showTableLinks);
