@@ -89,6 +89,21 @@
     </div>
     <div id="newOrderNotice" class="new-order-notice hide" role="status" aria-live="polite"></div>
     <div id="orders" class="order-grid"></div>
+<section class="card analytics-panel">
+ <div class="catalog-heading"><div><span class="eyebrow">ESTADÍSTICAS DEL RESTAURANTE</span><h3>Resumen de pedidos</h3><p class="muted">Montos registrados por pedidos no cancelados. No son pagos confirmados.</p></div>
+ <button type="button" class="soft-button" id="reloadAnalytics">Actualizar estadísticas</button></div>
+ <div class="analytics-kpis">
+  <div class="metric-card"><span>Pedidos totales</span><strong id="analyticsOrders">—</strong></div>
+  <div class="metric-card"><span>Importe de pedidos</span><strong id="analyticsAmount">—</strong></div>
+  <div class="metric-card"><span>Pedidos hoy</span><strong id="analyticsTodayOrders">—</strong></div>
+  <div class="metric-card"><span>Importe hoy</span><strong id="analyticsTodayAmount">—</strong></div>
+ </div>
+ <p id="analyticsMessage" class="muted" role="status">Cargando estadísticas...</p>
+ <div class="analytics-columns">
+  <div><h4>Últimos 7 días</h4><div id="analyticsDaily" class="analytics-bars"></div></div>
+  <div><h4>Productos más pedidos</h4><div id="analyticsProducts"></div></div>
+ </div>
+</section>
 <section class="card catalog-panel">
   <div class="catalog-heading"><div><span class="eyebrow">CATÁLOGO</span><h3>Administrar menú</h3><p class="muted">Crea productos, cambia precios, fotografías y disponibilidad.</p></div>
   <button type="button" class="primary" id="newProduct">+ Nuevo producto</button></div>
@@ -119,5 +134,6 @@
 <script src="../js/supabase.js"></script>
 <script src="../js/admin.js"></script><script src="../js/catalog.js"></script><script src="../js/tables-manager.js"></script>
 <script src="../js/onboarding.js"></script>
+<script src="../js/analytics.js"></script>
 </body>
 </html>
