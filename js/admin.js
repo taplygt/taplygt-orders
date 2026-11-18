@@ -39,6 +39,12 @@ function showLogin(message = '') {
   allOrders = [];
   knownOrderIds = null;
   document.getElementById('tableLinks').replaceChildren();
+  if(document.getElementById('qrCards')){
+    document.getElementById('qrCards').replaceChildren();
+    document.getElementById('qrCards').classList.add('hide');
+    document.getElementById('printQrCards').disabled=true;
+    qrCardsLoaded=false;
+  }
   document.getElementById('dashboard').classList.add('hide');
   document.getElementById('signupBox').classList.add('hide');
   document.getElementById('setupBox').classList.add('hide');
