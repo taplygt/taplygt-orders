@@ -7,7 +7,7 @@ async function supabaseRequest(path, { method = 'GET', body, token } = {}) {
     method,
     headers: {
       apikey: SUPABASE_KEY,
-      Authorization: 'Bearer ' + (token || SUPABASE_KEY),
+      ...(token ? { Authorization: 'Bearer ' + token } : {}),
       ...(body !== undefined ? { 'Content-Type': 'application/json' } : {})
     },
     ...(body !== undefined ? { body: JSON.stringify(body) } : {})
