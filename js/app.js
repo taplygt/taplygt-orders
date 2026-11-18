@@ -58,4 +58,11 @@ async function cargarMenu() {
   }
 }
 
+// Permite enlaces QR como index.html?mesa=3 (solo mesas de la demo).
+const mesaQR = new URLSearchParams(window.location.search).get('mesa');
+const selectorMesa = document.getElementById('table');
+if (mesaQR && selectorMesa && Array.from(selectorMesa.options).some(o => o.value === mesaQR)) {
+  selectorMesa.value = mesaQR;
+}
+
 cargarMenu();
