@@ -1,8 +1,9 @@
+const statusLabels = {pending:'Recibido',accepted:'Aceptado',preparing:'Preparando',ready:'Listo',delivered:'Entregado',cancelled:'Cancelado'};
 let accessToken = null;
 let staffRestaurantId = null;
 let pollHandle = null;
 let refreshInProgress = false;
-const statuses = ['Recibido', 'Preparando', 'Listo', 'Entregado', 'Cancelado'];
+const statuses = ['pending', 'accepted', 'preparing', 'ready', 'delivered', 'cancelled'];
 
 function setMessage(id, message) {
   document.getElementById(id).textContent = message;
@@ -66,11 +67,11 @@ function renderOrders(orders) {
     const row = document.createElement('div');
     row.className = 'row';
     const heading = document.createElement('h3');
-    heading.textContent = 'Mesa ' + (order.restaurant_tables?.table_number ?? '?') +
+    heading.textContent = 'Mesa ' + (order.tables?.table_number ?? '?') +
       ' · #' + String(order.id).slice(0, 8);
     const pill = document.createElement('span');
     pill.className = 'pill';
-    pill.textContent = order.status;
+    pill.textContent = statusLabels[order.status] || order.status;
     row.append(heading, pill);
     const date = document.createElement('p');
     date.className = 'muted';
@@ -78,7 +79,7 @@ function renderOrders(orders) {
     const lines = document.createElement('div');
     (order.order_items || []).forEach(line => {
       const item = document.createElement('p');
-      item.textContent = line.quantity + ' × ' + line.product_name +
+      item.textContent = line.quantity + ' × ' + (line.products?.name || 'Producto') +
         ' — ' + formatMoney(line.subtotal);
       lines.appendChild(item);
     });
@@ -90,11 +91,11 @@ function renderOrders(orders) {
     const total = document.createElement('strong');
     total.textContent = formatMoney(order.total);
     const select = document.createElement('select');
-    select.setAttribute('aria-label', 'Estado de pedido de mesa ' + (order.restaurant_tables?.table_number || '?'));
+    select.setAttribute('aria-label', 'Estado de pedido de mesa ' + (order.tables?.table_number || '?'));
     statuses.forEach(status => {
       const option = document.createElement('option');
       option.value = status;
-      option.textContent = status;
+      option.textContent = statusLabels[status] || status;
       option.selected = status === order.status;
       select.appendChild(option);
     });
@@ -108,7 +109,7 @@ async function loadOrders() {
   if (!accessToken || !staffRestaurantId || refreshInProgress) return;
   refreshInProgress = true;
   try {
-    const query = '/rest/v1/orders?select=id,status,notes,total,created_at,restaurant_tables(table_number),order_items(product_name,quantity,subtotal)' +
+    const query = '/rest/v1/orders?select=id,status,notes,total,created_at,tables(table_number),order_items(quantity,subtotal,products(name))' +
       '&restaurant_id=eq.' + encodeURIComponent(staffRestaurantId) +
       '&order=created_at.desc&limit=100';
     const orders = await supabaseRequest(query, { token: accessToken });
