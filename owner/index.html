@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#103e34"><title>Taplygt · Propietario</title>
+ <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="admin-page">
+<header class="admin-header"><div class="admin-shell admin-header-inner"><div><h1>Taplygt <span class="brand-accent">Platform</span></h1><small>Centro del propietario · Acceso restringido</small></div><a class="header-link" href="../admin/">Panel restaurante</a></div></header>
+<main class="admin-shell">
+ <section class="card admin-login" id="ownerLogin">
+  <span class="eyebrow">Solo propietario autorizado</span><h2>Panel general</h2>
+  <form id="ownerLoginForm"><label for="ownerEmail">Correo electrónico</label><input id="ownerEmail" type="email" autocomplete="username" required>
+  <label for="ownerPassword">Contraseña</label><input id="ownerPassword" type="password" autocomplete="current-password" required>
+  <button type="submit" class="primary">Entrar</button></form>
+  <p id="ownerLoginMessage" role="status" class="muted"></p>
+ </section>
+ <section id="ownerDashboard" class="hide">
+  <div class="admin-topbar"><div><span class="eyebrow">Resumen de la plataforma</span><h2>Restaurantes de Taplygt</h2><p class="muted">Seguimiento del piloto. Los importes son pedidos, no pagos confirmados.</p></div><div class="admin-actions"><button id="ownerRefresh" class="soft-button">Actualizar</button><button id="ownerLogout" class="soft-button">Salir</button></div></div>
+  <div class="admin-metrics"><div class="metric-card"><span>Restaurantes</span><strong id="ownerRestaurants">0</strong></div>
+  <div class="metric-card"><span>Pedidos</span><strong id="ownerOrders">0</strong></div>
+  <div class="metric-card"><span>Importe de pedidos no cancelados</span><strong id="ownerAmount">Q0.00</strong></div></div>
+  <p id="ownerMessage" role="status" class="muted"></p>
+  <div id="ownerRestaurantList" class="owner-grid"></div>
+ </section>
+</main>
+<footer>Taplygt Platform · Uso interno</footer>
+<script src="../js/supabase.js"></script><script src="../js/owner.js"></script>
+</body>
+</html>
