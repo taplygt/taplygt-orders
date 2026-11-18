@@ -38,6 +38,8 @@ function showLogin(message = '') {
   knownOrderIds = null;
   document.getElementById('tableLinks').replaceChildren();
   document.getElementById('dashboard').classList.add('hide');
+  document.getElementById('signupBox').classList.add('hide');
+  document.getElementById('setupBox').classList.add('hide');
   document.getElementById('loginBox').classList.remove('hide');
   setMessage('loginMessage', message);
 }
@@ -51,18 +53,10 @@ async function signIn(email, password) {
     token: accessToken
   });
   if (!staff.length) {
-    showLogin('Esta cuenta no tiene permiso para administrar un restaurante.');
+    showRestaurantSetup(email);
     return;
   }
-  staffRestaurantId = staff[0].restaurant_id;
-  document.getElementById('loginBox').classList.add('hide');
-  document.getElementById('dashboard').classList.remove('hide');
-  setMessage('staffInfo', 'Personal autorizado · ' + email);
-  knownOrderIds = null;
-  await loadOrders();
-  await loadCatalog();
-  clearInterval(pollHandle);
-  pollHandle = setInterval(loadOrders, pollMs);
+  await activateRestaurantPanel(email,staff[0].restaurant_id);
 }
 function playNewOrderSound() {
   if (!soundsEnabled) return;
