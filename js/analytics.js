@@ -1,4 +1,5 @@
 let analyticsBusy=false;
+let analyticsLatest=null;
 async function loadAnalytics() {
  if(!accessToken||!staffRestaurantId||analyticsBusy)return;
  analyticsBusy=true;
@@ -8,6 +9,8 @@ async function loadAnalytics() {
   const data=await supabaseRequest('/rest/v1/rpc/taplygt_restaurant_analytics',{
     method:'POST',token:accessToken,body:{p_restaurant_id:staffRestaurantId}
   });
+  analyticsLatest=data;
+  document.getElementById('exportAnalytics').disabled=false;
   const fmt=n=>'Q'+Number(n||0).toLocaleString('es-GT',{minimumFractionDigits:2,maximumFractionDigits:2});
   document.getElementById('analyticsOrders').textContent=Number(data.orders_total||0).toLocaleString('es-GT');
   document.getElementById('analyticsAmount').textContent=fmt(data.amount_total);
@@ -46,3 +49,37 @@ async function loadAnalytics() {
  } finally{analyticsBusy=false;}
 }
 document.getElementById('reloadAnalytics').addEventListener('click',loadAnalytics);
+
+function analyticsCsvCell(value) {
+ const raw=String(value??'');
+ const safe=/^[\\s]*[=+@-]/.test(raw)?"'"+raw:raw;
+ return '"'+safe.replace(/"/g,'""')+'"';
+}
+document.getElementById('exportAnalytics').addEventListener('click',()=>{
+ if(!accessToken||!staffRestaurantId||!analyticsLatest)return;
+ const d=analyticsLatest;
+ const rows=[
+  ['Taplygt - Resumen de pedidos'],
+  ['Generado',new Date().toLocaleString('es-GT')],
+  ['Aviso','Importes de pedidos no cancelados; no son pagos confirmados'],
+  [],
+  ['Métrica','Valor'],
+  ['Pedidos totales',d.orders_total||0],
+  ['Importe de pedidos (Q)',d.amount_total||0],
+  ['Pedidos hoy',d.orders_today||0],
+  ['Importe de pedidos hoy (Q)',d.amount_today||0],
+  [],
+  ['Fecha','Pedidos','Importe de pedidos (Q)'],
+  ...(d.daily||[]).map(x=>[String(x.date).slice(0,10),x.orders||0,x.amount||0]),
+  [],
+  ['Producto','Unidades','Importe de pedidos (Q)'],
+  ...(d.top_products||[]).map(x=>[x.name,x.quantity||0,x.amount||0])
+ ];
+ const csv='\uFEFF'+rows.map(row=>row.map(analyticsCsvCell).join(';')).join('\r\n');
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement('a');
+ link.href=url;link.download='taplygt-resumen-'+new Date().toISOString().slice(0,10)+'.csv';
+ document.body.appendChild(link);link.click();link.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
