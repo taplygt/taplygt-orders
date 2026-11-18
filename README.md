@@ -54,3 +54,28 @@ El archivo `supabase/schema.sql` ya no recrea tablas: documenta el esquema real.
 2. En [GitHub Pages Settings](https://github.com/taplygt/taplygt-orders/settings/pages) selecciona **GitHub Actions** como origen y habilita Pages, si tu plan admite Pages para repositorios privados. Alternativamente, configura un hosting estático HTTPS.
 
 **NO USAR PARA CLIENTES REALES TODAVÍA:** la defensa contra abuso es un límite básico por mesa, no una protección integral contra pedidos falsos. Los códigos QR son portadores de acceso y se pueden compartir. Hace falta probar el sitio desplegado y el acceso del personal antes del piloto.
+
+## Panel de operaciones — actualización del 18 de noviembre de 2026
+
+Se renovó `admin/index.html`, `js/admin.js` y `css/styles.css`.
+
+- Interfaz adaptativa para escritorio, tablet y teléfono con tarjetas de pedidos.
+- Resumen de pedidos nuevos, aceptados/en preparación, listos y entregados (dentro de las últimas 100 órdenes consultadas).
+- Filtros por activos, nuevos, en proceso, listos, entregados y todos.
+- Acciones rápidas: aceptar, comenzar preparación, marcar listo y marcar entregado. Cancelar solicita confirmación.
+- Cada cambio de estado se envía a Supabase con condición sobre el estado anterior para evitar pisar cambios de otra sesión.
+- Revisión de órdenes cada cinco segundos; solo se anuncian órdenes nuevas después de la primera carga para evitar avisos falsos al iniciar sesión.
+- Aviso visual de nuevas órdenes y sonido opcional activable mediante clic del usuario; el sonido funciona mientras el panel permanece abierto y el navegador permite audio.
+- Los enlaces QR siguen disponibles en la sección desplegable para personal autorizado.
+- Comprobación sintáctica de JS y verificación de IDs HTML realizadas. **Falta inspección manual en navegadores reales y verificación del despliegue actualizado.**
+
+### Validación del panel
+
+1. Abre `/admin/`, inicia sesión y confirma que los KPI muestran los pedidos.
+2. Filtra los pedidos por estado y verifica que los resultados cambien.
+3. Haz un pedido de prueba desde una mesa y comprueba que aparezca en cinco segundos.
+4. Activa los avisos sonoros con el botón y repite la prueba desde otro dispositivo.
+5. Acepta, prepara y entrega un pedido, verificando cada cambio en otra sesión.
+6. En la sección de mesas, consulta y copia un enlace QR.
+
+No usar para atención comercial sin completar pruebas de campo y medidas antiabuso adicionales.
