@@ -1,21 +1,28 @@
 <!doctype html>
-<html lang="es">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Taplygt Orders · Menú digital</title><link rel="stylesheet" href="css/styles.css"></head>
-<body>
-<header><h1>Taplygt <span style="color:#a6d8c0">Orders</span></h1><small>Menú digital · Restaurante piloto</small></header>
-<main class="wrap">
-  <div class="warn">Piloto de pruebas: escanea el QR asignado a tu mesa. Pago únicamente en caja. No usar para atención comercial todavía.</div>
-  <div class="row"><div><h2>Menú digital</h2><p class="muted">Escanea el QR de tu mesa, elige tus productos y envía tu pedido.</p></div>
-  <label>Mesa <select id="table"><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option></select></label></div>
-  <div class="grid" id="menu" aria-live="polite"></div>
-  <div class="card" id="cart"><h2>Tu pedido</h2><div id="cartLines" class="muted">Aún no agregas productos.</div>
-  <hr><div class="row"><strong>Total estimado</strong><strong id="total">Q0.00</strong></div>
-  <p><label>Notas para cocina (opcional)<input id="notes" placeholder="Ej. sin cebolla" style="width:100%;margin-top:8px" maxlength="150"></label></p>
-  <button id="submitOrder" class="primary" onclick="placeOrder()">Confirmar pedido · Pagar en caja</button>
-  <p id="confirmation" role="status" aria-live="polite"></p></div>
-  <p><a href="admin/">Acceso para personal del restaurante</a></p>
-</main>
-<footer>Taplygt Orders · Piloto · No incluye cobro en línea</footer>
-<script src="js/cart.js"></script><script src="js/supabase.js"></script><script src="js/orders.js"></script><script src="js/app.js"></script>
-</body></html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123c32"><title>Taplygt Orders · Menú</title>
+<link rel="stylesheet" href="css/styles.css"></head>
+<body class="customer-page">
+<header class="customer-header"><div class="customer-shell customer-header-inner">
+<div class="customer-brand"><span class="customer-logo">T.</span><div><strong>Taplygt <span>Orders</span></strong><small>Menú digital</small></div></div>
+<a href="admin/" class="customer-admin-link">Personal ↗</a></div></header>
+<main class="customer-shell">
+<section class="customer-hero"><div><span class="customer-eyebrow">PIDE DESDE TU MESA</span><h1>Algo delicioso<br><em>te espera.</em></h1>
+<p>Explora el menú, elige tus favoritos y envía tu pedido a cocina.</p></div>
+<div class="customer-table-badge"><span>Tu mesa</span><strong id="tableBadge">—</strong></div></section>
+<div class="customer-notice">Versión piloto · Pago en caja · No se procesan pagos en línea.</div>
+<div class="customer-heading"><div><span class="customer-eyebrow">DESCUBRE</span><h2>Nuestro menú</h2></div>
+<label class="customer-search-label" for="menuSearch">Buscar <input id="menuSearch" type="search" placeholder="¿Qué se te antoja?" autocomplete="off"></label></div>
+<nav id="categoryFilters" class="customer-categories" aria-label="Categorías del menú"></nav>
+<div class="customer-layout"><section><div id="menu" class="customer-product-grid" aria-live="polite">Escanea el QR de tu mesa para ver el menú.</div></section>
+<aside id="cart" class="customer-cart"><div class="customer-cart-head"><div><span class="customer-eyebrow">TU SELECCIÓN</span><h2>Mi pedido <span id="cartCount" class="customer-count">0</span></h2></div><span class="customer-bag">🛍️</span></div>
+<div id="cartLines" class="customer-cart-lines">Aún no agregas productos.</div>
+<label class="customer-notes-label" for="notes">Instrucciones para cocina<input id="notes" maxlength="150" placeholder="Ej. sin cebolla"></label>
+<div class="customer-cart-total"><span>Total estimado</span><strong id="total">Q0.00</strong></div>
+<button id="submitOrder" class="primary customer-submit" onclick="placeOrder()" disabled>Confirmar pedido · Pagar en caja</button>
+<p id="confirmation" role="status" aria-live="polite" class="customer-confirmation"></p>
+<p class="customer-footnote">El precio final lo confirma el restaurante.</p></aside></div>
+<select id="table" class="hide" aria-label="Mesa asignada"></select>
+</main><div class="customer-sticky-cart" id="stickyCart"><span><strong id="stickyCount">0 productos</strong><small id="stickyTotal">Q0.00</small></span><button type="button" id="viewCart">Ver mi pedido ↑</button></div>
+<footer>Taplygt Orders · Experiencia digital para restaurantes</footer>
+<script src="js/cart.js"></script><script src="js/supabase.js"></script><script src="js/orders.js"></script><script src="js/app.js"></script></body></html>
