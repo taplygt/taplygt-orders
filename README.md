@@ -38,3 +38,19 @@ on conflict do nothing;
 Los clientes públicos **no** tienen acceso directo de lectura a pedidos ni escritura en tablas de órdenes. El RPC público crea pedidos únicamente con tokens de mesa válidos y precios del catálogo. Las funciones `SECURITY DEFINER` públicas están permitidas intencionadamente para el piloto, pero el auditor las marca y **deben recibir controles antiabuso** antes de producción. La clave `sb_publishable_...` es apta para cliente; nunca publicar `service_role`.
 
 El archivo `supabase/schema.sql` ya no recrea tablas: documenta el esquema real. La migración aplicada se registra en Supabase.
+
+## Verificación del 18 de noviembre de 2026
+
+- Prueba de inserción pública con rol `anon`: **correcta**. Se recibió total Q45 y estado `pending` en una transacción revertida.
+- Prueba de límite: 3 pedidos temporales fueron admitidos y un cuarto fue rechazado; se revirtieron todos.
+- Acceso público directo a `orders`: **denegado**.
+- Archivos JavaScript comprobados sintácticamente.
+- Panel con enlaces de mesa visibles solo para personal autenticado, y actualización automática cada cinco segundos.
+- Usuarios Auth existentes: **0**, cuentas de personal: **0** (todavía no se puede probar login).
+- El repositorio privado contiene `.github/workflows/deploy-pages.yml`, pero aún se debe habilitar GitHub Pages en **Settings → Pages → Source: GitHub Actions**. Publicación no confirmada.
+
+### Dos acciones de propietario necesarias
+1. En [Supabase Auth > Users](https://supabase.com/dashboard/project/pzwirecozfwmwduhmwyp/auth/users) crea una cuenta del encargado con correo y contraseña elegidos por ti. No compartas contraseñas en el chat. Luego asignaremos el correo a `restaurant_staff` con SQL para habilitar el panel.
+2. En [GitHub Pages Settings](https://github.com/taplygt/taplygt-orders/settings/pages) selecciona **GitHub Actions** como origen y habilita Pages, si tu plan admite Pages para repositorios privados. Alternativamente, configura un hosting estático HTTPS.
+
+**NO USAR PARA CLIENTES REALES TODAVÍA:** la defensa contra abuso es un límite básico por mesa, no una protección integral contra pedidos falsos. Los códigos QR son portadores de acceso y se pueden compartir. Hace falta probar el sitio desplegado y el acceso del personal antes del piloto.
