@@ -202,3 +202,8 @@ button:not(:disabled):active{transform:scale(.975)}
 
 .qr-download{font-size:11px;padding:8px 13px;margin:12px 0 0;min-height:36px}
 @media print{body.printing-qr .qr-download{display:none!important}}
+
+/* Shared links to the commercial walkthrough */
+.admin-header-links,.customer-header-links{display:flex;align-items:center;justify-content:flex-end;gap:17px;flex-wrap:wrap}
+.admin-header-links .header-link,.customer-header-links .customer-admin-link{white-space:nowrap}
+@media(max-width:540px){.admin-header-links,.customer-header-links{gap:8px}.admin-header-links .header-link,.customer-header-links .customer-admin-link{font-size:10px}.admin-header-inner{gap:10px}}
