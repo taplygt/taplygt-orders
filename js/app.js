@@ -42,7 +42,8 @@ function renderMenu() {
     (String(p.name || '') + ' ' + String(p.description || '')).toLocaleLowerCase('es').includes(searchTerm)
   );
   if (!matches.length) {
-    container.appendChild(makeNode('p','customer-empty','No encontramos productos en esta categoría.'));
+    const message=productosMenu.length?'No encontramos productos con estos filtros. Prueba otra categoría o búsqueda.':'Este restaurante todavía está preparando su menú. Pregunta al personal por las opciones disponibles.';
+    container.appendChild(makeNode('p','customer-empty',message));
     return;
   }
   matches.forEach(product => {
@@ -86,7 +87,16 @@ function renderMenu() {
 }
 async function cargarMenu() {
   const container = document.getElementById('menu');
-  container.textContent = 'Cargando menú...';
+  container.replaceChildren();
+  const loading = document.createElement('div');
+  loading.className = 'menu-loading';
+  loading.setAttribute('aria-label','Cargando menú');
+  for (let i=0;i<4;i++) {
+    const skeleton=document.createElement('div');
+    skeleton.className='menu-skeleton';
+    loading.appendChild(skeleton);
+  }
+  container.appendChild(loading);
   try {
     productosMenu = await obtenerProductos();
     renderCategories();
@@ -121,6 +131,12 @@ async function iniciarMenu() {
     option.textContent = String(mesa.table_number).padStart(2,'0');
     selectorMesa.appendChild(option);
     document.getElementById('tableBadge').textContent = option.textContent;
+    const restaurantName=String(mesa.restaurant_name||'').trim();
+    if(restaurantName){
+      document.getElementById('restaurantBrandName').textContent=restaurantName;
+      document.getElementById('heroRestaurantName').textContent='MENÚ DE '+restaurantName.toLocaleUpperCase('es');
+      document.title=restaurantName+' · Menú digital Taplygt';
+    }
     submit.disabled = false;
     await cargarMenu();
   } catch(error) {
