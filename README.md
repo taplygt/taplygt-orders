@@ -1,49 +1,40 @@
-# Taplygt Orders — MVP conectado a Supabase
+# Taplygt Orders — piloto con Supabase conectado
 
-**Código implementado:** menú digital, carrito, creación de pedidos a través de RPC con precios validados en Supabase, panel privado del restaurante, cambios de estado y actualización automática entre dispositivos (consulta cada 5 segundos).
+El repositorio corresponde a la base de datos **taplygt-orders**, proyecto `pzwirecozfwmwduhmwyp`. El esquema original ya existía antes del desarrollo; fue adaptado sin reemplazar las tablas.
 
-**Estado del despliegue:** el código está publicado en GitHub, pero **la base de datos aún requiere ejecutar `supabase/schema.sql` en el proyecto Supabase**. No se afirma que el flujo funcione en producción hasta completar la configuración y probar con dos dispositivos.
+## Estado confirmado
+- Migración `taplygt_secure_orders_existing_schema` aplicada correctamente en Supabase.
+- Tablas existentes: `restaurants`, `tables`, `products`, `orders`, `order_items`.
+- Tabla nueva: `restaurant_staff`.
+- Funciones RPC `taplygt_resolve_table` y `taplygt_create_order`.
+- La función de pedidos se probó con una inserción **dentro de una transacción revertida**; el servidor calculó Q45 correctamente.
+- Las órdenes reales usan `pending`, `accepted`, `preparing`, `ready`, `delivered`, `cancelled`. El panel las traduce al español.
+- El total se determina en Supabase, no en JavaScript.
 
-## Activación (obligatoria)
+## Cómo activar el piloto
+1. Publica el sitio mediante hosting HTTPS (GitHub Pages, si tu plan/repositorio lo permite, u otro servicio).
+2. Genera un enlace por mesa usando su `qr_token` de `public.tables`. Ejemplo: `https://TU-DOMINIO/?mesa_token=TOKEN_DE_MESA`. **No uses `?mesa=1`**: el código real usa un token UUID.
+3. Accede al menú desde el QR; el selector mostrará la mesa asignada por Supabase.
+4. En **Supabase Auth > Users**, crea un usuario del restaurante y asígnale permiso con SQL, cambiando el correo por el suyo:
 
-1. Entra al proyecto Supabase que usa `js/supabase.js`.
-2. Abre **SQL Editor** y ejecuta **todo** `supabase/schema.sql`. Antes, revisa/respáldate de las políticas y datos existentes de `public.products`. El script agrega `restaurant_id` a los productos y asigna los registros sin restaurante a `piloto`.
-3. Comprueba que existen el restaurante `piloto` y las mesas 1 a 5. Verifica que la tabla `products` contiene las columnas `id`, `name`, `description`, `category`, `price`, `is_available`.
-4. En **Supabase Authentication > Users**, crea o invita un usuario real para el encargado del restaurante. En **SQL Editor**, asigna acceso con esta consulta reemplazando el correo:
-   ```sql
-   insert into public.restaurant_staff(user_id, restaurant_id)
-   select u.id, r.id from auth.users u cross join public.restaurants r
-   where u.email = 'encargado@ejemplo.com' and r.slug = 'piloto'
-   on conflict do nothing;
-   ```
-5. Activa un hosting HTTPS, por ejemplo GitHub Pages (en **Settings > Pages** del repositorio), o usa un servidor local. Recuerda que el repositorio actualmente es **privado**: verifica la elegibilidad del plan/visibilidad para Pages.
-6. Abre la raíz del sitio: selecciona una mesa, agrega productos y confirma. Desde **otro dispositivo**, inicia sesión en `/admin/` con la cuenta del encargado. Los pedidos se consultan automáticamente cada cinco segundos.
-7. Para QR por mesa usa enlaces como `https://TU-SITIO/?mesa=1` hasta `?mesa=5`. El selector de mesa del menú se ajusta al parámetro URL. **El número de mesa en el QR no es una credencial de seguridad**.
+```sql
+insert into public.restaurant_staff(user_id,restaurant_id)
+select u.id,r.id from auth.users u cross join public.restaurants r
+where u.email='ENCARGADO@EJEMPLO.COM' and r.name='Taplygt Demo'
+on conflict do nothing;
+```
 
-## Arquitectura
+5. Abre `/admin/` desde otro dispositivo e inicia sesión con la cuenta autorizada. El panel consulta pedidos cada cinco segundos.
 
-- `index.html` + `js/app.js` + `js/cart.js`: menú y carrito del cliente.
-- `js/supabase.js`: conexión al proyecto y llamadas al RPC.
-- `js/orders.js`: creación del pedido en Supabase, sin localStorage.
-- `admin/index.html` + `js/admin.js`: acceso de personal mediante Supabase Auth, consulta de órdenes autorizadas y actualización de estados.
-- `supabase/schema.sql`: restaurantes, mesas, personal, pedidos, renglones, RLS y función segura `taplygt_create_order`.
+## Verificaciones antes de abrir al público
+- Probar el flujo extremo a extremo desde dos dispositivos en el sitio publicado.
+- Confirmar que RLS protege órdenes, productos y cuentas, y que el login funciona.
+- Añadir protección contra pedidos falsos y abuso del endpoint RPC (rate limits, captcha u otra barrera).
+- Implementar idempotencia para evitar pedidos duplicados cuando hay errores de red.
+- Definir gestión de turnos, cuentas y protección frente a QR copiados.
+- No se procesan pagos online ni se envían órdenes a una impresora de cocina.
 
-## Seguridad y límites actuales
+## Seguridad
+Los clientes públicos **no** tienen acceso directo de lectura a pedidos ni escritura en tablas de órdenes. El RPC público crea pedidos únicamente con tokens de mesa válidos y precios del catálogo. Las funciones `SECURITY DEFINER` públicas están permitidas intencionadamente para el piloto, pero el auditor las marca y **deben recibir controles antiabuso** antes de producción. La clave `sb_publishable_...` es apta para cliente; nunca publicar `service_role`.
 
-- La API verifica existencia y disponibilidad de cada producto y **recalcula importes en el servidor**, sin confiar en precios manipulados por el cliente.
-- Los pedidos no se pueden consultar públicamente y el personal solo accede a los de su restaurante mediante RLS.
-- Solo los usuarios previamente asignados en `restaurant_staff` pueden administrar pedidos.
-- La clave `sb_publishable_...` es una clave pública adecuada para frontend **siempre que RLS esté bien configurado**. Nunca publiques la `service_role` ni claves secretas.
-- No hay pagos en línea. El botón indica **pagar en caja**.
-- **Antes de operar con clientes reales:** implementar protección contra spam/rate limiting en el endpoint de pedidos, validar el mecanismo QR contra usos fuera del local, realizar pruebas integrales, configurar backups/monitoreo y auditar políticas RLS preexistentes, incluyendo `products`.
-- La actualización es por **polling**, no Supabase Realtime. El panel muestra los últimos 100 pedidos por restaurante.
-- No hay integración con impresora de cocina, proveedores de pago o fiscalización.
-- El servidor puede crear más de un pedido si el cliente reintenta manualmente después de una pérdida de conexión. Añadir una clave de idempotencia antes de uso comercial.
-
-## Prueba mínima de aceptación
-
-- Una cuenta sin permiso no ve el panel ni pedidos.
-- Un cliente crea pedido desde el celular en mesa 3 y el encargado lo ve desde otro dispositivo.
-- El encargado cambia `Recibido` a `Preparando`, `Listo` y `Entregado`.
-- Enviar un precio diferente en el navegador **no** altera el total de Supabase.
-- Enviar un ID de producto inexistente o una cantidad negativa devuelve error y no crea pedido.
+El archivo `supabase/schema.sql` ya no recrea tablas: documenta el esquema real. La migración aplicada se registra en Supabase.
