@@ -56,3 +56,8 @@ document.getElementById('setupForm').addEventListener('submit',async event=>{
   }catch(error){setMessage('setupMessage','Error: '+error.message)}
   finally{button.disabled=false}
 });
+
+document.getElementById('gettingStartedTables').addEventListener('click',()=>{
+  document.getElementById('mesas').open=true;
+  showTableLinks();
+});
