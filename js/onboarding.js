@@ -6,7 +6,7 @@ async function activateRestaurantPanel(email,restaurantId) {
   document.getElementById('dashboard').classList.remove('hide');
   setMessage('staffInfo','Restaurante autorizado · '+email);
   knownOrderIds=null;
-  await Promise.all([loadOrders(),loadCatalog()]);
+  await Promise.all([loadOrders(),loadCatalog(),loadAnalytics()]);
   clearInterval(pollHandle);
   pollHandle=setInterval(loadOrders,pollMs);
 }
