@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102e25"><meta name="description" content="Explora Taplygt: menú QR, pedidos desde la mesa y operación en tiempo real. Demostración interactiva para restaurantes.">
+<title>Taplygt | Experiencia para restaurantes</title>
+<link rel="stylesheet" href="../css/showcase.css">
+</head>
+<body>
+<header class="site-header">
+ <a class="brand" href="#inicio"><span class="brand-symbol">✦</span><span>Taplygt<small>RESTAURANT TECHNOLOGY</small></span></a>
+ <nav class="top-nav" aria-label="Navegación principal"><a href="#ventajas">Ventajas</a><a href="#experiencia">Demostración</a><a href="../admin/">Acceso restaurante</a></nav>
+ <a class="header-cta" href="#experiencia">Probar demo <span>↗</span></a>
+</header>
+<main>
+<section class="showcase-hero" id="inicio">
+ <div class="hero-copy">
+  <span class="eyebrow"><span class="live-dot"></span> PRESENTAMOS TAPLYGT</span>
+  <h1>Una nueva forma de <em>servir experiencias.</em></h1>
+  <p>Menús digitales, pedidos desde la mesa y herramientas para que tu restaurante trabaje con más fluidez. Todo en un mismo lugar.</p>
+  <div class="hero-actions"><a href="#experiencia" class="btn btn-gold">Explorar demostración <span>↗</span></a><a href="#ventajas" class="btn btn-ghost">Conocer la plataforma</a></div>
+  <div class="hero-proof"><span>✳ Sin descargar aplicaciones</span><span>✳ Pedidos desde QR</span><span>✳ Diseñado para Guatemala</span></div>
+ </div>
+ <div class="hero-visual" role="img" aria-label="Imagen ilustrativa de un restaurante elegante y gastronomía">
+  <div class="hero-image"></div><div class="hero-glass"><span class="tag">LA EXPERIENCIA TAPLYGT</span><strong>La tecnología se integra. La hospitalidad permanece.</strong></div>
+ </div>
+</section>
+<section class="intro-strip" id="ventajas"><div><span class="eyebrow dark">TODO EN UNA PLATAFORMA</span><h2>Más que un menú digital.<br><em>Una mejor operación.</em></h2></div>
+<div class="feature-grid">
+ <article><span class="feature-icon">▦</span><h3>Menú QR elegante</h3><p>Tu carta disponible al instante, desde cualquier mesa.</p></article>
+ <article><span class="feature-icon">↗</span><h3>Pedidos desde la mesa</h3><p>Los clientes eligen platos y envían sus pedidos sin esperar.</p></article>
+ <article><span class="feature-icon">◷</span><h3>Operación organizada</h3><p>Recibe y mueve pedidos entre preparación y entrega.</p></article>
+ <article><span class="feature-icon">▥</span><h3>Decisiones con datos</h3><p>Consulta actividad y productos más pedidos en tu negocio.</p></article>
+</div></section>
+<section class="demo-section" id="experiencia">
+ <div class="section-head"><div><span class="eyebrow dark">PRUÉBALO TÚ MISMO</span><h2>Una experiencia realista.<br><em>Sin comprometer pedidos reales.</em></h2><p>Explora ambos lados de Taplygt: lo que ve tu cliente y lo que administra tu equipo.</p></div><span class="demo-ribbon">● DEMOSTRACIÓN · DATOS FICTICIOS</span></div>
+ <div class="demo-switch" role="tablist" aria-label="Vistas de demostración">
+  <button class="view-tab active" role="tab" aria-selected="true" data-view="menu">01 &nbsp; Menú del cliente</button>
+  <button class="view-tab" role="tab" aria-selected="false" data-view="kitchen">02 &nbsp; Centro de pedidos <span id="pendingBadge" class="pending-badge">3</span></button>
+  <button class="view-tab" role="tab" aria-selected="false" data-view="insights">03 &nbsp; Estadísticas</button>
+ </div>
+ <div class="demo-layout">
+ <div class="demo-intro"><span class="eyebrow dark" id="viewEyebrow">LA EXPERIENCIA DEL COMENSAL</span><h3 id="viewHeading">Tu menú, a la altura de tu restaurante.</h3><p id="viewDescription">Escoge platos, agrégalos al carrito y envía un pedido de prueba. Después cambia al centro de pedidos y míralo aparecer.</p><div class="demo-step"><span>01</span><div><strong>Explora</strong><small>Busca platos o filtra por categoría</small></div></div><div class="demo-step"><span>02</span><div><strong>Agrega</strong><small>Modifica las cantidades de tu pedido</small></div></div><div class="demo-step"><span>03</span><div><strong>Confirma</strong><small>Simula el envío al equipo de cocina</small></div></div><div class="demo-note">ℹ Todas las acciones de esta demostración son locales. No se cobran tarjetas ni se crean pedidos reales.</div></div>
+ <div class="demo-stage">
+  <section class="demo-view active" id="view-menu" aria-label="Menú interactivo">
+   <div class="phone-frame"><div class="phone-screen">
+    <div class="phone-top"><span>9:41</span><span>●●● ▰</span></div>
+    <div class="phone-header"><span class="phone-logo">✦ Taplygt</span><span class="phone-mesa">Mesa 05</span></div>
+    <div class="restaurant-banner"><span>RESTAURANTE DE EJEMPLO</span><strong>La Terraza</strong><small>Un momento delicioso comienza aquí.</small></div>
+    <div class="phone-content"><div class="phone-greeting"><div><small>BIENVENIDO</small><h4>¿Qué se te antoja hoy?</h4></div><span>✽</span></div>
+    <input id="demoSearch" type="search" placeholder="⌕  Buscar en el menú..." aria-label="Buscar platos" autocomplete="off">
+    <div class="demo-categories" id="demoCategories" aria-label="Categorías"></div>
+    <div id="demoProducts" class="demo-products"></div></div>
+    <div class="phone-cart-sticky"><button id="demoCartToggle" type="button"><span>🛍 Mi pedido <b id="demoCartCount">0</b></span><strong id="demoCartTotal">Q0.00 ↗</strong></button></div>
+    <div class="cart-drawer" id="demoCartDrawer" aria-label="Tu pedido de demostración" hidden><div class="cart-drawer-head"><h4>Tu pedido</h4><button id="demoCartClose" type="button" aria-label="Cerrar carrito">✕</button></div><div id="demoCartLines"></div><label class="demo-notes">Notas para cocina<input id="demoNotes" placeholder="Ej. sin cebolla" maxlength="150"></label><div class="cart-sum"><span>Total</span><strong id="demoDrawerTotal">Q0.00</strong></div><button id="demoPlaceOrder" class="demo-confirm" type="button">Enviar pedido de demostración ↗</button><p class="tiny">Sin cobros. No se envía a un restaurante real.</p></div>
+    <div class="demo-toast" id="demoToast" role="status" aria-live="polite"></div>
+   </div></div>
+  </section>
+  <section class="demo-view" id="view-kitchen" aria-label="Centro de pedidos simulado" hidden>
+   <div class="dashboard-demo"><div class="dash-sidebar"><span class="dash-brand">✦ Taplygt</span><div class="dash-restaurant">◉ &nbsp; La Terraza <span>⌄</span></div><div class="dash-item selected">▣ &nbsp; Pedidos</div><div class="dash-item">▦ &nbsp; Productos</div><div class="dash-item">▤ &nbsp; Mesas</div><div class="dash-item">▥ &nbsp; Reportes</div><span class="dash-foot">MODO DEMOSTRACIÓN</span></div><div class="dash-main"><div class="dash-header"><div><small>OPERACIÓN DEL RESTAURANTE</small><h4>Pedidos en cocina</h4></div><span class="status-online"><i></i> En operación</span></div><div class="dash-kpis"><div><span>Pedidos en total</span><strong id="kpiTotalOrders">4</strong></div><div><span>Pendientes</span><strong id="kpiPending">3</strong></div><div><span>Entregados</span><strong id="kpiDone">1</strong></div></div><div class="kitchen-toolbar"><span>Tablero en vivo <small>DEMO</small></span><button id="resetDemo" type="button">↺ Reiniciar demo</button></div><div class="kanban" id="demoKanban"></div></div></div>
+  </section>
+  <section class="demo-view" id="view-insights" aria-label="Estadísticas ilustrativas" hidden>
+   <div class="insights-demo"><div class="dash-header"><div><small>INFORMACIÓN DEL NEGOCIO</small><h4>Tu restaurante, en números.</h4></div><span class="insight-period">Últimos 7 días · Ejemplo</span></div><div class="insight-cards"><div><small>Importe de pedidos</small><strong>Q18,450</strong><span>Datos ilustrativos</span></div><div><small>Pedidos realizados</small><strong>246</strong><span>Datos ilustrativos</span></div><div><small>Ticket promedio</small><strong>Q75.00</strong><span>Datos ilustrativos</span></div></div><div class="insight-bottom"><div class="chart-card"><h5>Actividad por día</h5><div class="chart-columns"><div style="--height:42%"><span>L</span></div><div style="--height:61%"><span>M</span></div><div style="--height:52%"><span>M</span></div><div style="--height:78%"><span>J</span></div><div style="--height:68%"><span>V</span></div><div style="--height:100%"><span>S</span></div><div style="--height:88%"><span>D</span></div></div></div><div class="popular-card"><h5>Favoritos de tus clientes</h5><div><span>01</span> Hamburguesa clásica <b>128</b></div><div><span>02</span> Pasta Alfredo <b>94</b></div><div><span>03</span> Pizza artesanal <b>76</b></div><p>Valores de ejemplo, no ventas reales.</p></div></div></div>
+  </section>
+ </div>
+ </div>
+</section>
+<section class="bottom-cta"><span class="eyebrow">DISEÑADO PARA CRECER CONTIGO</span><h2>Que tu restaurante se vea tan bien <em>como sabe.</em></h2><p>Taplygt ayuda a modernizar el servicio sin perder el toque humano.</p><div><a href="#experiencia" class="btn btn-gold">Volver a probar ↗</a><a href="../admin/" class="btn btn-ghost">Acceso a restaurantes</a></div><small>Vista comercial de demostración. Imágenes y cifras ilustrativas. Los pagos con tarjeta y Apple Pay aún no están habilitados.</small></section>
+</main>
+<footer class="showcase-footer"><span>✦ Taplygt <small>RESTAURANT TECHNOLOGY</small></span><p>Hecho para transformar el servicio de restaurantes en Guatemala.</p><a href="../">Ir al menú real ↗</a></footer>
+<script src="../js/showcase.js"></script>
+</body></html>
