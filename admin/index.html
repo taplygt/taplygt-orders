@@ -1,18 +1,77 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Taplygt · Panel de restaurante</title><link rel="stylesheet" href="../css/styles.css"></head>
-<body><header><h1>Taplygt <span style="color:#a6d8c0">Orders</span></h1><small>Panel privado del restaurante</small></header>
-<main class="wrap">
-<div class="warn">Los pedidos recibidos aparecerán aquí cuando el sistema de Supabase esté configurado y el personal tenga acceso autorizado.</div>
-<section id="loginBox" class="card"><h2>Acceso para personal</h2>
-<form id="loginForm"><p><label>Correo electrónico<br><input id="email" type="email" required autocomplete="username"></label></p>
-<p><label>Contraseña<br><input id="password" type="password" required autocomplete="current-password"></label></p>
-<button type="submit" class="primary">Ingresar</button></form><p class="muted" id="loginMessage" role="status"></p></section>
-<section id="dashboard" class="hide">
-<div class="row"><div><h2>Pedidos del restaurante</h2><p class="muted" id="staffInfo"></p></div><button id="logout">Cerrar sesión</button></div>
-<p class="muted" id="panelMessage" role="status">Buscando pedidos...</p>
-<div id="orders"></div><button id="refresh">Actualizar ahora</button><section class="card" style="margin-top:20px"><h3>Enlaces QR de mesas</h3><p class="muted">Sólo el personal autorizado puede ver estos enlaces. Compártelos únicamente con el restaurante.</p><button id="loadTableLinks">Mostrar enlaces de las mesas</button><div id="tableLinks"></div></section>
-</section><p><a href="../index.html">Volver al menú</a></p>
-</main><footer>Taplygt Orders · Gestión del restaurante</footer>
-<script src="../js/supabase.js"></script><script src="../js/admin.js"></script>
-</body></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#103e34">
+  <title>Taplygt · Centro de pedidos</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="admin-page">
+<header class="admin-header">
+  <div class="admin-shell admin-header-inner">
+    <div><h1>Taplygt <span class="brand-accent">Orders</span></h1><small>Centro de pedidos · Restaurante piloto</small></div>
+    <a class="header-link" href="../index.html">Ver menú ↗</a>
+  </div>
+</header>
+<main class="admin-shell">
+  <section id="loginBox" class="card admin-login">
+    <span class="eyebrow">Acceso restringido</span>
+    <h2>Bienvenido de nuevo</h2>
+    <p class="muted">Inicia sesión con la cuenta de personal autorizada en Supabase.</p>
+    <form id="loginForm">
+      <label for="email">Correo electrónico</label>
+      <input id="email" type="email" required autocomplete="username" placeholder="correo@restaurante.com">
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" required autocomplete="current-password" placeholder="Tu contraseña">
+      <button class="primary" type="submit">Entrar al panel</button>
+    </form>
+    <p id="loginMessage" role="status" aria-live="polite" class="muted"></p>
+  </section>
+  <section id="dashboard" class="hide">
+    <div class="admin-topbar">
+      <div>
+        <span class="eyebrow">Operaciones en vivo</span>
+        <h2>Panel de pedidos</h2>
+        <p id="staffInfo" class="muted"></p>
+      </div>
+      <div class="admin-actions">
+        <button type="button" id="notifyToggle" class="soft-button">🔔 Activar avisos</button>
+        <button type="button" id="refresh" class="soft-button">↻ Actualizar</button>
+        <button type="button" id="logout" class="soft-button">Salir</button>
+      </div>
+    </div>
+    <div class="admin-metrics" aria-label="Resumen de pedidos recientes">
+      <div class="metric-card"><span>Nuevos</span><strong id="metricNew">0</strong><small>Sin aceptar</small></div>
+      <div class="metric-card"><span>En preparación</span><strong id="metricActive">0</strong><small>Aceptados y preparando</small></div>
+      <div class="metric-card"><span>Listos</span><strong id="metricReady">0</strong><small>Pendientes de entrega</small></div>
+      <div class="metric-card"><span>Entregados</span><strong id="metricDelivered">0</strong><small>Entre los últimos 100</small></div>
+    </div>
+    <div class="admin-toolbar">
+      <div><h3>Órdenes del restaurante</h3><p id="panelMessage" class="muted" role="status" aria-live="polite">Cargando...</p></div>
+      <label class="filter-label" for="orderFilter">Mostrar
+        <select id="orderFilter">
+          <option value="active">Activos</option>
+          <option value="all">Todos</option>
+          <option value="pending">Nuevos</option>
+          <option value="preparing">En proceso</option>
+          <option value="ready">Listos</option>
+          <option value="delivered">Entregados</option>
+        </select>
+      </label>
+    </div>
+    <div id="newOrderNotice" class="new-order-notice hide" role="status" aria-live="polite"></div>
+    <div id="orders" class="order-grid"></div>
+    <details class="card table-links-panel">
+      <summary>Enlaces QR de las mesas</summary>
+      <p class="muted">Solo visibles al personal autorizado. Úsalos para colocar un QR en cada mesa.</p>
+      <button type="button" id="loadTableLinks" class="soft-button">Mostrar enlaces de las mesas</button>
+      <div id="tableLinks"></div>
+    </details>
+  </section>
+</main>
+<footer>Taplygt Orders · Piloto de pruebas · Pago en caja</footer>
+<script src="../js/supabase.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>
