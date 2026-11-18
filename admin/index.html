@@ -62,6 +62,24 @@
     </div>
     <div id="newOrderNotice" class="new-order-notice hide" role="status" aria-live="polite"></div>
     <div id="orders" class="order-grid"></div>
+<section class="card catalog-panel">
+  <div class="catalog-heading"><div><span class="eyebrow">CATÁLOGO</span><h3>Administrar menú</h3><p class="muted">Crea productos, cambia precios, fotografías y disponibilidad.</p></div>
+  <button type="button" class="primary" id="newProduct">+ Nuevo producto</button></div>
+  <p id="catalogMessage" class="muted" role="status" aria-live="polite"></p>
+  <div id="productList" class="catalog-grid"></div>
+  <form id="productForm" class="catalog-form hide">
+    <h3 id="productFormTitle">Nuevo producto</h3>
+    <input id="productId" type="hidden">
+    <label>Nombre<input id="productName" required maxlength="100"></label>
+    <label>Categoría<input id="productCategory" required maxlength="60" placeholder="Ej. Bebidas"></label>
+    <label>Precio (Q)<input id="productPrice" type="number" min="0.01" max="99999" step="0.01" required></label>
+    <label>Descripción<textarea id="productDescription" maxlength="500" rows="3"></textarea></label>
+    <label>Fotografía (JPG, PNG o WebP, máximo 3 MB)<input id="productPhoto" type="file" accept="image/jpeg,image/png,image/webp"></label>
+    <label>O enlace HTTPS de la fotografía<input id="productImageUrl" type="url" placeholder="https://..."></label>
+    <label class="catalog-check"><input id="productAvailable" type="checkbox" checked> Disponible para pedir</label>
+    <div class="catalog-buttons"><button type="submit" class="primary" id="saveProduct">Guardar producto</button><button type="button" class="soft-button" id="cancelProduct">Cerrar</button></div>
+  </form>
+</section>
     <details class="card table-links-panel">
       <summary>Enlaces QR de las mesas</summary>
       <p class="muted">Solo visibles al personal autorizado. Úsalos para colocar un QR en cada mesa.</p>
@@ -72,6 +90,6 @@
 </main>
 <footer>Taplygt Orders · Piloto de pruebas · Pago en caja</footer>
 <script src="../js/supabase.js"></script>
-<script src="../js/admin.js"></script>
+<script src="../js/admin.js"></script><script src="../js/catalog.js"></script>
 </body>
 </html>
