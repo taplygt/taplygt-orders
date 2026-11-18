@@ -142,3 +142,16 @@ button:not(:disabled):active{transform:scale(.975)}
 }
 @media(max-width:390px){.customer-hero{padding:26px 18px!important}.customer-table-badge{min-width:65px}.customer-hero h1{font-size:35px}.customer-product{grid-template-columns:100px minmax(0,1fr)}.customer-product-art{min-height:155px}.customer-product-body{padding:12px}.customer-add{padding:8px 9px;font-size:11px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
+/* Compact in-panel navigation */
+.dashboard-shortcuts{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin:0 0 22px;padding:2px 1px 8px}
+.dashboard-shortcuts a{flex:1 0 auto;display:flex;align-items:center;justify-content:space-between;gap:15px;border:1px solid #dce7dd;background:#fff;padding:15px 17px;min-width:155px;text-decoration:none;border-radius:15px;color:#23523c;font-size:13px;font-weight:800;box-shadow:0 4px 12px #173e2b09;transition:background .2s,border-color .2s,transform .2s}
+.dashboard-shortcuts a:hover{background:#eaf3eb;border-color:#b6d1bc;transform:translateY(-2px)}
+.dashboard-shortcuts span{color:#80a28b}
+#pedidos,#estadisticas,#catalogo,#mesas{scroll-margin-top:25px}
+.owner-list-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:27px 0 8px}
+.owner-list-head h3{font-size:24px;letter-spacing:-.6px;margin:5px 0 0}
+.owner-search{font-size:12px;font-weight:750;color:#5d7466;min-width:min(280px,100%)}
+.owner-search input{width:100%;display:block;margin-top:7px;min-height:44px;background:#fff;border-radius:12px}
+.owner-empty{grid-column:1/-1;text-align:center;padding:35px;color:#6e8074;border-style:dashed}
+@media(max-width:660px){.dashboard-shortcuts{margin-bottom:15px}.dashboard-shortcuts a{padding:12px 14px;min-width:136px}.owner-list-head{align-items:stretch;flex-direction:column}.owner-search{width:100%}}
