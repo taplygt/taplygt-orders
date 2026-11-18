@@ -67,6 +67,7 @@ async function loadCatalog() {
     const products = await catalogApi('/rest/v1/products?select=id,name,description,category,price,is_available,image_url&restaurant_id=eq.'+
       encodeURIComponent(staffRestaurantId)+'&order=name.asc');
     catalogProducts=products;
+    document.getElementById('gettingStarted').classList.toggle('hide',products.length>0);
     catalogRender();
     catalogMessage(products.length+' productos registrados.');
   } catch(error) {
