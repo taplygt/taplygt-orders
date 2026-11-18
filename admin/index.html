@@ -27,6 +27,33 @@
       <button class="primary" type="submit">Entrar al panel</button>
     </form>
     <p id="loginMessage" role="status" aria-live="polite" class="muted"></p>
+    <button type="button" id="openSignup" class="soft-button">Registrar mi restaurante</button>
+  </section>
+  <section id="signupBox" class="card admin-login hide">
+    <span class="eyebrow">Restaurantes nuevos</span>
+    <h2>Crea tu cuenta</h2>
+    <p class="muted">Regístrate con tu correo. Si se solicita confirmación, revisa tu correo antes de iniciar sesión.</p>
+    <form id="signupForm">
+      <label for="signupEmail">Correo electrónico</label>
+      <input id="signupEmail" type="email" autocomplete="email" required>
+      <label for="signupPassword">Contraseña (mínimo 8 caracteres)</label>
+      <input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required>
+      <button class="primary" type="submit">Crear cuenta</button>
+    </form>
+    <p id="signupMessage" role="status" class="muted"></p>
+    <button id="backToLogin" type="button" class="soft-button">Ya tengo cuenta</button>
+  </section>
+  <section id="setupBox" class="card admin-login hide">
+    <span class="eyebrow">Primer acceso</span>
+    <h2>Configura tu restaurante</h2>
+    <p class="muted">Se creará un negocio independiente con su propia mesa 1 y menú vacío.</p>
+    <form id="setupForm">
+      <label for="restaurantName">Nombre del restaurante</label>
+      <input id="restaurantName" maxlength="90" minlength="2" required placeholder="Ej. Café Central">
+      <button type="submit" class="primary">Crear mi restaurante</button>
+    </form>
+    <p id="setupMessage" role="status" class="muted"></p>
+    <button id="setupLogout" type="button" class="soft-button">Salir</button>
   </section>
   <section id="dashboard" class="hide">
     <div class="admin-topbar">
@@ -91,5 +118,6 @@
 <footer>Taplygt Orders · Piloto de pruebas · Pago en caja</footer>
 <script src="../js/supabase.js"></script>
 <script src="../js/admin.js"></script><script src="../js/catalog.js"></script><script src="../js/tables-manager.js"></script>
+<script src="../js/onboarding.js"></script>
 </body>
 </html>
