@@ -34,6 +34,8 @@ function showLogin(message = '') {
   pollHandle = null;
   accessToken = null;
   staffRestaurantId = null;
+  analyticsLatest = null;
+  document.getElementById('exportAnalytics').disabled = true;
   allOrders = [];
   knownOrderIds = null;
   document.getElementById('tableLinks').replaceChildren();
