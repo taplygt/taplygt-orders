@@ -173,3 +173,29 @@ button:not(:disabled):active{transform:scale(.975)}
 .step-number{font-size:12px;font-weight:900;color:#488568}
 @media(max-width:880px){.getting-started-steps{grid-template-columns:1fr}}
 @media(max-width:660px){.getting-started{padding:19px}.getting-started h3{font-size:20px}}
+
+/* Printable QR table cards */
+.qr-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:17px;margin:24px 0 12px;scroll-margin-top:20px}
+.qr-print-card{display:flex;flex-direction:column;align-items:center;text-align:center;background:#fff;color:#163c2c;border:1px solid #cfddd0;border-radius:21px;padding:25px 16px 22px;min-height:377px;box-shadow:0 8px 22px #1039260b;break-inside:avoid;page-break-inside:avoid}
+.qr-print-brand{font-weight:850;font-size:17px;letter-spacing:-.8px}
+.qr-print-caption{font-weight:800;font-size:10px;letter-spacing:2px;color:#5c8468;margin:19px 0 0}
+.qr-print-card h3{font-size:25px;margin:7px 0 17px;letter-spacing:-.8px}
+.qr-image{padding:11px;background:#fff;border:1px solid #dee8de;border-radius:13px}
+.qr-image img,.qr-image canvas{display:block!important;margin:auto;max-width:100%}
+.qr-print-card p{font-size:11px;color:#6e7c6d;line-height:1.6;max-width:185px;margin:16px 0 8px}
+.qr-print-card small{font-size:10px;color:#315c43;font-weight:700;margin-top:auto}
+@media print{
+ @page{size:A4 portrait;margin:12mm}
+ body.printing-qr{background:#fff!important;color:#173929}
+ body.printing-qr .admin-header,body.printing-qr footer{display:none!important}
+ body.printing-qr main.admin-shell{display:block!important;max-width:none!important;padding:0!important;margin:0!important}
+ body.printing-qr #loginBox,body.printing-qr #signupBox,body.printing-qr #setupBox{display:none!important}
+ body.printing-qr #dashboard{display:block!important}
+ body.printing-qr #dashboard>:not(#mesas){display:none!important}
+ body.printing-qr #mesas{display:block!important;border:0!important;box-shadow:none!important;margin:0!important;padding:0!important}
+ body.printing-qr #mesas>:not(#qrCards){display:none!important}
+ body.printing-qr #qrCards{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:9mm;margin:0!important}
+ body.printing-qr .qr-print-card{box-shadow:none!important;border:1px solid #b6c8b8!important;min-height:112mm;border-radius:5mm;padding:9mm 5mm!important}
+ body.printing-qr .qr-print-card img{display:block!important}
+ body.printing-qr .qr-print-card canvas{display:none!important}
+}
