@@ -167,3 +167,5 @@
 @media(max-width:720px){.catalog-grid,.catalog-form{grid-template-columns:1fr}.catalog-heading{align-items:flex-start;flex-direction:column}}
 
 .catalog-form.hide{display:none}
+
+.table-manager-actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
