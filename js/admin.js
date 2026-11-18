@@ -60,6 +60,7 @@ async function signIn(email, password) {
   setMessage('staffInfo', 'Personal autorizado · ' + email);
   knownOrderIds = null;
   await loadOrders();
+  await loadCatalog();
   clearInterval(pollHandle);
   pollHandle = setInterval(loadOrders, pollMs);
 }
