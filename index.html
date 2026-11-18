@@ -1,1 +1,21 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Taplygt Orders · Demo</title><link rel="stylesheet" href="css/styles.css"></head><body><header><h1>Taplygt <span style="color:#a6d8c0">Orders</span></h1><small>Restaurante piloto · Prototipo interactivo</small></header><main class="wrap"><div class="warn">DEMO LOCAL: los pedidos se guardan únicamente en este navegador. No procesa pagos ni transmite órdenes a una cocina real.</div><nav><button id="clientTab" class="active" onclick="show('client')">📱 Vista cliente</button><button id="adminTab" onclick="show('admin')">🍽️ Vista restaurante</button></nav><section id="client"><div class="row"><div><h2>Menú digital</h2><p class="muted">Bienvenido. Elige tus productos.</p></div><label>Mesa <select id="table"><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option></select></label></div><div class="grid" id="menu"></div><div class="card" id="cart"><h2>Tu pedido</h2><div id="cartLines" class="muted">Aún no agregas productos.</div><hr><div class="row"><strong>Total</strong><strong id="total">Q0.00</strong></div><p><label>Notas para cocina (opcional)<br><input id="notes" placeholder="Ej. sin cebolla" style="width:100%;margin-top:8px" maxlength="150"></label></p><button class="primary" onclick="placeOrder()">Confirmar pedido · Pagar en caja</button><p id="confirmation" role="status"></p></div></section><section id="admin" class="hide"><h2>Panel de pedidos</h2><p class="muted">Actualiza los estados de las órdenes de demostración.</p><div id="orders"></div><button onclick="renderOrders()">Actualizar pedidos</button></section></main><footer>Taplygt Orders · MVP 0.1 · Datos ficticios</footer><script src="js/menu.js"></script><script src="js/cart.js"></script><script src="js/orders.js"></script><script src="js/supabase.js"></script><script src="js/app.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taplygt Orders · Menú digital</title><link rel="stylesheet" href="css/styles.css"></head>
+<body>
+<header><h1>Taplygt <span style="color:#a6d8c0">Orders</span></h1><small>Menú digital · Restaurante piloto</small></header>
+<main class="wrap">
+  <div class="warn">Piloto: los pedidos se envían a la base de datos. Pago únicamente en caja; no se aceptan pagos en línea.</div>
+  <div class="row"><div><h2>Menú digital</h2><p class="muted">Selecciona tus productos y envía tu pedido.</p></div>
+  <label>Mesa <select id="table"><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option></select></label></div>
+  <div class="grid" id="menu" aria-live="polite"></div>
+  <div class="card" id="cart"><h2>Tu pedido</h2><div id="cartLines" class="muted">Aún no agregas productos.</div>
+  <hr><div class="row"><strong>Total estimado</strong><strong id="total">Q0.00</strong></div>
+  <p><label>Notas para cocina (opcional)<input id="notes" placeholder="Ej. sin cebolla" style="width:100%;margin-top:8px" maxlength="150"></label></p>
+  <button id="submitOrder" class="primary" onclick="placeOrder()">Confirmar pedido · Pagar en caja</button>
+  <p id="confirmation" role="status" aria-live="polite"></p></div>
+  <p><a href="admin/">Acceso para personal del restaurante</a></p>
+</main>
+<footer>Taplygt Orders · Piloto · No incluye cobro en línea</footer>
+<script src="js/cart.js"></script><script src="js/supabase.js"></script><script src="js/orders.js"></script><script src="js/app.js"></script>
+</body></html>
