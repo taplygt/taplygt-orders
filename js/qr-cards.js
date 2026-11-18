@@ -31,6 +31,21 @@ async function loadQrCards(){
    card.append(brand,caption,tableLabel,qr,intro,footer);
    preview.appendChild(card);
    new QRCode(qr,{text:qrMenuUrl(table),width:185,height:185,colorDark:'#122c23',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+   const download=document.createElement('button');
+   download.type='button';
+   download.className='soft-button qr-download';
+   download.textContent='↓ Guardar QR PNG';
+   download.setAttribute('aria-label','Guardar QR de mesa '+table.table_number);
+   download.addEventListener('click',()=>{
+     const canvas=qr.querySelector('canvas');
+     const image=qr.querySelector('img');
+     const data=canvas?.toDataURL('image/png')||(image?.src.startsWith('data:image/png')?image.src:null);
+     if(!data){qrMessage('El QR aún no está listo. Prueba otra vez.');return;}
+     const anchor=document.createElement('a');
+     anchor.href=data;anchor.download='taplygt-mesa-'+table.table_number+'.png';
+     document.body.appendChild(anchor);anchor.click();anchor.remove();
+   });
+   card.appendChild(download);
   }
   qrCardsLoaded=true;print.disabled=false;
   qrMessage(tables.length+' tarjetas QR listas. Puedes imprimirlas o guardarlas como PDF desde las opciones de impresión.');
