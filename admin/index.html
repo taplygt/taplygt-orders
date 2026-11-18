@@ -1,1 +1,18 @@
-<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Taplygt · Panel</title><link rel="stylesheet" href="../css/styles.css"><main class="wrap"><h1>Panel del restaurante</h1><p>En esta versión de demostración, el panel está integrado en la página principal.</p><a href="../index.html">Abrir demo y seleccionar «Vista restaurante»</a></main></html>
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taplygt · Panel de restaurante</title><link rel="stylesheet" href="../css/styles.css"></head>
+<body><header><h1>Taplygt <span style="color:#a6d8c0">Orders</span></h1><small>Panel privado del restaurante</small></header>
+<main class="wrap">
+<div class="warn">Los pedidos recibidos aparecerán aquí cuando el sistema de Supabase esté configurado y el personal tenga acceso autorizado.</div>
+<section id="loginBox" class="card"><h2>Acceso para personal</h2>
+<form id="loginForm"><p><label>Correo electrónico<br><input id="email" type="email" required autocomplete="username"></label></p>
+<p><label>Contraseña<br><input id="password" type="password" required autocomplete="current-password"></label></p>
+<button type="submit" class="primary">Ingresar</button></form><p class="muted" id="loginMessage" role="status"></p></section>
+<section id="dashboard" class="hide">
+<div class="row"><div><h2>Pedidos del restaurante</h2><p class="muted" id="staffInfo"></p></div><button id="logout">Cerrar sesión</button></div>
+<p class="muted" id="panelMessage" role="status">Buscando pedidos...</p>
+<div id="orders"></div><button id="refresh">Actualizar ahora</button>
+</section><p><a href="../index.html">Volver al menú</a></p>
+</main><footer>Taplygt Orders · Gestión del restaurante</footer>
+<script src="../js/supabase.js"></script><script src="../js/admin.js"></script>
+</body></html>
