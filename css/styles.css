@@ -165,3 +165,5 @@
 .catalog-check input{width:auto}
 .catalog-buttons{display:flex;gap:10px}
 @media(max-width:720px){.catalog-grid,.catalog-form{grid-template-columns:1fr}.catalog-heading{align-items:flex-start;flex-direction:column}}
+
+.catalog-form.hide{display:none}
