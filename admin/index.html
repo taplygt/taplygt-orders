@@ -69,13 +69,19 @@
         <button type="button" id="logout" class="soft-button">Salir</button>
       </div>
     </div>
+    <nav class="dashboard-shortcuts" aria-label="Secciones del restaurante">
+      <a href="#pedidos">Pedidos <span>↗</span></a>
+      <a href="#estadisticas">Estadísticas <span>↗</span></a>
+      <a href="#catalogo">Menú y precios <span>↗</span></a>
+      <a href="#mesas">Mesas QR <span>↗</span></a>
+    </nav>
     <div class="admin-metrics" aria-label="Resumen de pedidos recientes">
       <div class="metric-card"><span>Nuevos</span><strong id="metricNew">0</strong><small>Sin aceptar</small></div>
       <div class="metric-card"><span>En preparación</span><strong id="metricActive">0</strong><small>Aceptados y preparando</small></div>
       <div class="metric-card"><span>Listos</span><strong id="metricReady">0</strong><small>Pendientes de entrega</small></div>
       <div class="metric-card"><span>Entregados</span><strong id="metricDelivered">0</strong><small>Entre los últimos 100</small></div>
     </div>
-    <div class="admin-toolbar">
+    <div class="admin-toolbar" id="pedidos">
       <div><h3>Órdenes del restaurante</h3><p id="panelMessage" class="muted" role="status" aria-live="polite">Cargando...</p></div>
       <label class="filter-label" for="orderFilter">Mostrar
         <select id="orderFilter">
@@ -90,7 +96,7 @@
     </div>
     <div id="newOrderNotice" class="new-order-notice hide" role="status" aria-live="polite"></div>
     <div id="orders" class="order-grid"></div>
-<section class="card analytics-panel">
+<section class="card analytics-panel" id="estadisticas">
  <div class="catalog-heading"><div><span class="eyebrow">ESTADÍSTICAS DEL RESTAURANTE</span><h3>Resumen de pedidos</h3><p class="muted">Montos registrados por pedidos no cancelados. No son pagos confirmados.</p></div>
  <div class="analytics-actions"><button type="button" class="soft-button" id="reloadAnalytics">Actualizar estadísticas</button><button type="button" class="soft-button" id="exportAnalytics" disabled>Descargar CSV</button></div></div>
  <div class="analytics-kpis">
@@ -105,7 +111,7 @@
   <div><h4>Productos más pedidos</h4><div id="analyticsProducts"></div></div>
  </div>
 </section>
-<section class="card catalog-panel">
+<section class="card catalog-panel" id="catalogo">
   <div class="catalog-heading"><div><span class="eyebrow">CATÁLOGO</span><h3>Administrar menú</h3><p class="muted">Crea productos, cambia precios, fotografías y disponibilidad.</p></div>
   <button type="button" class="primary" id="newProduct">+ Nuevo producto</button></div>
   <p id="catalogMessage" class="muted" role="status" aria-live="polite"></p>
@@ -123,7 +129,7 @@
     <div class="catalog-buttons"><button type="submit" class="primary" id="saveProduct">Guardar producto</button><button type="button" class="soft-button" id="cancelProduct">Cerrar</button></div>
   </form>
 </section>
-    <details class="card table-links-panel">
+    <details class="card table-links-panel" id="mesas">
       <summary>Enlaces QR de las mesas</summary>
       <p class="muted">Solo visibles al personal autorizado. Úsalos para colocar un QR en cada mesa.</p>
       <div class="table-manager-actions"><button type="button" id="loadTableLinks" class="soft-button">Mostrar enlaces de las mesas</button><button type="button" id="addTable" class="soft-button">+ Agregar mesa</button></div><p id="tableManagerMessage" class="muted" role="status"></p>
