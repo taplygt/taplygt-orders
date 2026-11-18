@@ -140,13 +140,14 @@
     <details class="card table-links-panel" id="mesas">
       <summary>Enlaces QR de las mesas</summary>
       <p class="muted">Solo visibles al personal autorizado. Úsalos para colocar un QR en cada mesa.</p>
-      <div class="table-manager-actions"><button type="button" id="loadTableLinks" class="soft-button">Mostrar enlaces de las mesas</button><button type="button" id="addTable" class="soft-button">+ Agregar mesa</button></div><p id="tableManagerMessage" class="muted" role="status"></p>
-      <div id="tableLinks"></div>
+      <div class="table-manager-actions"><button type="button" id="loadTableLinks" class="soft-button">Mostrar enlaces de las mesas</button><button type="button" id="addTable" class="soft-button">+ Agregar mesa</button><button type="button" id="previewQrCards" class="soft-button">Ver tarjetas QR</button><button type="button" id="printQrCards" class="primary" disabled>Imprimir QR</button></div><p id="tableManagerMessage" class="muted" role="status"></p>
+      <div id="tableLinks"></div><div id="qrCards" class="qr-cards hide" aria-live="polite"></div>
     </details>
   </section>
 </main>
 <footer>Taplygt Orders · Piloto de pruebas · Pago en caja</footer>
 <script src="../js/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="../js/admin.js"></script><script src="../js/catalog.js"></script><script src="../js/tables-manager.js"></script>
 <script src="../js/onboarding.js"></script>
 <script src="../js/analytics.js"></script>
