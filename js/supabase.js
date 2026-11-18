@@ -34,7 +34,7 @@ async function resolverMesa(token) {
 }
 async function obtenerProductos() {
   if (!RESTAURANT_ID) throw new Error('Escanea el QR de tu mesa para ver el menú.');
-  return supabaseRequest('/rest/v1/products?select=id,name,description,category,price&is_available=eq.true&restaurant_id=eq.' + encodeURIComponent(RESTAURANT_ID) + '&order=name.asc');
+  return supabaseRequest('/rest/v1/products?select=id,name,description,category,price,image_url&is_available=eq.true&restaurant_id=eq.' + encodeURIComponent(RESTAURANT_ID) + '&order=name.asc');
 }
 async function enviarPedido(table, lines, notes) {
   if (!TABLE_TOKEN) throw new Error('Escanea el QR original de la mesa.');
