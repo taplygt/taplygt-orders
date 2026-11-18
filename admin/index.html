@@ -83,13 +83,13 @@
     <details class="card table-links-panel">
       <summary>Enlaces QR de las mesas</summary>
       <p class="muted">Solo visibles al personal autorizado. Úsalos para colocar un QR en cada mesa.</p>
-      <button type="button" id="loadTableLinks" class="soft-button">Mostrar enlaces de las mesas</button>
+      <div class="table-manager-actions"><button type="button" id="loadTableLinks" class="soft-button">Mostrar enlaces de las mesas</button><button type="button" id="addTable" class="soft-button">+ Agregar mesa</button></div><p id="tableManagerMessage" class="muted" role="status"></p>
       <div id="tableLinks"></div>
     </details>
   </section>
 </main>
 <footer>Taplygt Orders · Piloto de pruebas · Pago en caja</footer>
 <script src="../js/supabase.js"></script>
-<script src="../js/admin.js"></script><script src="../js/catalog.js"></script>
+<script src="../js/admin.js"></script><script src="../js/catalog.js"></script><script src="../js/tables-manager.js"></script>
 </body>
 </html>
