@@ -1,76 +1,66 @@
-
 let cart = {};
 let productosMenu = [];
-
-const money = n => "Q" + Number(n).toFixed(2);
-
-function show(tab) {
-  document.getElementById("client").classList.toggle("hide", tab !== "client");
-  document.getElementById("admin").classList.toggle("hide", tab !== "admin");
-  document.getElementById("clientTab").classList.toggle("active", tab === "client");
-  document.getElementById("adminTab").classList.toggle("active", tab === "admin");
-
-  if (tab === "admin") renderOrders();
-}
-
+const money = n => 'Q' + Number(n || 0).toFixed(2);
 function add(id) {
-  const producto = productosMenu.find(p => String(p.id) === String(id));
-
-  if (!producto) {
-    alert("Producto no encontrado.");
-    return;
-  }
-
-  cart[id] = (cart[id] || 0) + 1;
+  const product = productosMenu.find(p => String(p.id) === String(id));
+  if (!product) return;
+  const key = String(id);
+  cart[key] = Math.min(20,(cart[key] || 0) + 1);
   renderCart();
 }
-
 function remove(id) {
-  if (cart[id]) cart[id]--;
-
-  if (!cart[id]) delete cart[id];
-
+  const key = String(id);
+  if (cart[key]) cart[key]--;
+  if (!cart[key]) delete cart[key];
   renderCart();
 }
-
 function renderCart() {
-  const contenedor = document.getElementById("cartLines");
-  const totalElemento = document.getElementById("total");
-
-  contenedor.innerHTML = "";
+  const container = document.getElementById('cartLines');
+  container.replaceChildren();
   let total = 0;
-
-  Object.keys(cart).forEach(id => {
-    const producto = productosMenu.find(p => String(p.id) === String(id));
-    if (!producto) return;
-
-    const cantidad = cart[id];
-    const subtotal = Number(producto.price) * cantidad;
+  let count = 0;
+  Object.entries(cart).forEach(([id,quantity]) => {
+    const product = productosMenu.find(p => String(p.id) === id);
+    if (!product) return;
+    const subtotal = Number(product.price) * quantity;
     total += subtotal;
-
-    const fila = document.createElement("div");
-    fila.className = "row";
-    fila.style.margin = "8px 0";
-
-    const nombre = document.createElement("span");
-    nombre.textContent = `${producto.name} × ${cantidad}`;
-
-    const precio = document.createElement("span");
-    precio.textContent = money(subtotal) + " ";
-
-    const boton = document.createElement("button");
-    boton.textContent = "−";
-    boton.setAttribute("aria-label", `Quitar ${producto.name}`);
-    boton.addEventListener("click", () => remove(id));
-
-    precio.appendChild(boton);
-    fila.append(nombre, precio);
-    contenedor.appendChild(fila);
+    count += quantity;
+    const row = document.createElement('div');
+    row.className = 'customer-cart-row';
+    const description = document.createElement('div');
+    const name = document.createElement('strong');
+    name.textContent = product.name;
+    const unit = document.createElement('small');
+    unit.textContent = money(product.price) + ' por unidad';
+    description.append(name,unit);
+    const controls = document.createElement('div');
+    controls.className = 'customer-quantity';
+    const minus = document.createElement('button');
+    minus.type = 'button';
+    minus.textContent = '−';
+    minus.setAttribute('aria-label','Quitar una unidad de ' + product.name);
+    minus.addEventListener('click',() => remove(id));
+    const amount = document.createElement('span');
+    amount.textContent = String(quantity);
+    const plus = document.createElement('button');
+    plus.type = 'button';
+    plus.textContent = '+';
+    plus.disabled = quantity >= 20;
+    plus.setAttribute('aria-label','Agregar una unidad de ' + product.name);
+    plus.addEventListener('click',() => add(id));
+    controls.append(minus,amount,plus);
+    row.append(description,controls);
+    container.appendChild(row);
   });
-
-  if (contenedor.children.length === 0) {
-    contenedor.textContent = "Aún no agregas productos.";
+  if (!count) {
+    const empty = document.createElement('div');
+    empty.className = 'customer-cart-empty';
+    empty.textContent = 'Tu carrito está vacío. Agrega algo delicioso del menú.';
+    container.appendChild(empty);
   }
-
-  totalElemento.textContent = money(total);
+  document.getElementById('total').textContent = money(total);
+  document.getElementById('cartCount').textContent = String(count);
+  document.getElementById('stickyCount').textContent = count + (count === 1 ? ' producto' : ' productos');
+  document.getElementById('stickyTotal').textContent = money(total);
+  document.getElementById('stickyCart').classList.toggle('visible',count > 0);
 }
