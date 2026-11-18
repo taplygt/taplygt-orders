@@ -58,11 +58,28 @@ async function cargarMenu() {
   }
 }
 
-// Permite enlaces QR como index.html?mesa=3 (solo mesas de la demo).
-const mesaQR = new URLSearchParams(window.location.search).get('mesa');
+const params = new URLSearchParams(window.location.search);
+const tokenQR = params.get('mesa_token');
 const selectorMesa = document.getElementById('table');
-if (mesaQR && selectorMesa && Array.from(selectorMesa.options).some(o => o.value === mesaQR)) {
-  selectorMesa.value = mesaQR;
+async function iniciarMenu() {
+  const submit = document.getElementById('submitOrder');
+  if (!tokenQR || !/^[0-9a-fA-F-]{36}$/.test(tokenQR)) {
+    document.getElementById('menu').textContent = 'Para comenzar, escanea el código QR de una mesa autorizada.';
+    submit.disabled = true;
+    return;
+  }
+  try {
+    const mesa = await resolverMesa(tokenQR);
+    selectorMesa.replaceChildren();
+    const option = document.createElement('option');
+    option.value = String(mesa.table_number);
+    option.textContent = String(mesa.table_number).padStart(2,'0');
+    selectorMesa.appendChild(option);
+    selectorMesa.disabled = true;
+    await cargarMenu();
+  } catch(error) {
+    document.getElementById('menu').textContent = 'QR inválido o inactivo: ' + error.message;
+    submit.disabled = true;
+  }
 }
-
-cargarMenu();
+iniciarMenu();
