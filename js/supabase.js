@@ -23,25 +23,22 @@ async function supabaseRequest(path, { method = 'GET', body, token } = {}) {
   if (response.status === 204) return null;
   return response.json();
 }
-async function getRestaurant() {
-  const restaurants = await supabaseRequest('/rest/v1/restaurants?select=id,name&slug=eq.piloto&limit=1');
-  if (!restaurants.length) throw new Error('Falta configurar el restaurante piloto en Supabase.');
-  RESTAURANT_ID = restaurants[0].id;
-  return restaurants[0];
+let TABLE_TOKEN = null;
+async function resolverMesa(token) {
+  const data = await supabaseRequest('/rest/v1/rpc/taplygt_resolve_table', {
+    method:'POST', body:{p_token:token}
+  });
+  TABLE_TOKEN = token;
+  RESTAURANT_ID = data.restaurant_id;
+  return data;
 }
 async function obtenerProductos() {
-  if (!RESTAURANT_ID) await getRestaurant();
+  if (!RESTAURANT_ID) throw new Error('Escanea el QR de tu mesa para ver el menú.');
   return supabaseRequest('/rest/v1/products?select=id,name,description,category,price&is_available=eq.true&restaurant_id=eq.' + encodeURIComponent(RESTAURANT_ID) + '&order=name.asc');
 }
 async function enviarPedido(table, lines, notes) {
-  if (!RESTAURANT_ID) throw new Error('El restaurante todavía no está cargado.');
+  if (!TABLE_TOKEN) throw new Error('Escanea el QR original de la mesa.');
   return supabaseRequest('/rest/v1/rpc/taplygt_create_order', {
-    method: 'POST',
-    body: {
-      p_restaurant_id: RESTAURANT_ID,
-      p_table_number: Number(table),
-      p_lines: lines,
-      p_notes: notes
-    }
+    method:'POST', body:{p_token:TABLE_TOKEN,p_lines:lines,p_notes:notes}
   });
 }
