@@ -18,6 +18,7 @@ document.getElementById('addTable').addEventListener('click',async()=>{
     if(!Array.isArray(result)||!result.length)throw new Error('No se confirmó la creación de la mesa.');
     tableManagerMessage('Mesa '+number+' creada. Ya puedes copiar su enlace QR.');
     await showTableLinks();
+    if(!document.getElementById('qrCards').classList.contains('hide'))await loadQrCards();
   }catch(error){tableManagerMessage('Error: '+error.message)}
   finally{tableManagerBusy=false}
 });
