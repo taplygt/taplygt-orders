@@ -52,7 +52,7 @@ document.getElementById('reloadAnalytics').addEventListener('click',loadAnalytic
 
 function analyticsCsvCell(value) {
  const raw=String(value??'');
- const safe=/^[\\s]*[=+@-]/.test(raw)?"'"+raw:raw;
+ const safe=/^\s*[=+@-]/.test(raw)?"'"+raw:raw;
  return '"'+safe.replace(/"/g,'""')+'"';
 }
 document.getElementById('exportAnalytics').addEventListener('click',()=>{
